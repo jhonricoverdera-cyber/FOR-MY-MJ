@@ -107,10 +107,20 @@ button {
     text-align: center;
 }
 
-img {
-    width: 200px;
-    margin-top: 10px;
+/* GIF RESPONSIVE & FLOATING */
+#loveImage, #sadGif {
     display: none;
+    margin-bottom: 10px;
+    max-width: 80%;
+    height: auto;
+    animation: float 2s ease-in-out infinite;
+}
+
+/* FLOATING ANIMATION */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
 }
 
 /* CONFETTI HEARTS */
@@ -125,13 +135,6 @@ img {
 @keyframes fall {
     0% { transform: translateY(0) scale(1); opacity:1; }
     100% { transform: translateY(400px) scale(0.5); opacity:0; }
-}
-
-/* SAD GIF for NO clicks */
-#sadGif {
-    width: 150px;
-    display: none;
-    margin-top: 10px;
 }
 </style>
 </head>
@@ -166,14 +169,16 @@ Have an amazing Valentine’s Day, and never forget that you’re appreciated, l
             </div>
 
             <!-- QUESTION PART -->
-            <div id="questionPart" style="display:none;">
+            <div id="questionPart" style="display:none; flex-direction: column; align-items: center;">
+                <!-- SAD GIF on top -->
+                <img id="sadGif" src="https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif">
                 <h2>Can I be your Valentine? 💖</h2>
                 <button id="yesBtn">YES 💘</button>
                 <button id="noBtn">NO 😢</button>
                 <div id="sideMessage"></div>
                 <div id="finalMessage"></div>
+                <!-- LOVE GIF on top of final message -->
                 <img id="loveImage" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif">
-                <img id="sadGif" src="https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif">
             </div>
 
         </div>
@@ -197,7 +202,7 @@ function openCard() {
 // Show question
 function showQuestion() {
     document.getElementById("messagePart").style.display = "none";
-    document.getElementById("questionPart").style.display = "block";
+    document.getElementById("questionPart").style.display = "flex";
 }
 
 const yesBtn = document.getElementById("yesBtn");
@@ -210,7 +215,7 @@ const sadGif = document.getElementById("sadGif");
 // YES button
 yesBtn.addEventListener("click", function() {
     finalMessage.innerHTML = "YAAYYY!! 💖🥰";
-    loveImage.style.display = "block";
+    loveImage.style.display = "block";  // floating GIF above text
     yesBtn.style.display = "none";
     noBtn.style.display = "none";
     sideMessage.innerHTML = "";
@@ -223,7 +228,7 @@ noBtn.addEventListener("click", function() {
     noSize -= 3;
     noBtn.style.fontSize = noSize + "px";
     noBtn.style.padding = (noSize/2) + "px";
-    sadGif.style.display = "block";
+    sadGif.style.display = "block"; // floating GIF above question
     sideMessage.innerHTML = noMessages[noClickCount] || "";
     noClickCount++;
     if (noSize <= 5) {
