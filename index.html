@@ -73,6 +73,7 @@ button { padding: 10px 20px; margin: 10px; font-size: 18px; border: none; border
     <source src="https://jhonricoverdera-cyber.github.io/FOR-MY-MJ/love-instrumental.mp3" type="audio/mpeg">
 </audio>
 
+
 <div class="card-wrapper">
     <div class="card" id="card">
 
@@ -120,8 +121,15 @@ const noMessages = ["WHY SAY NO?", "PLEASE", "PRETTY PLEASE"];
 
 function openCard() {
     document.getElementById("card").classList.add("open");
-    music.play(); // starts when user clicks Open Card
+
+    // Play music after user click
+    const music = document.getElementById("bgMusic");
+    music.volume = 0.2; // set volume
+    music.play().catch((err) => {
+        console.log("Music play was blocked, will try again on next user interaction.");
+    });
 }
+
 
 function showQuestion() {
     document.getElementById("messagePart").style.display = "none";
@@ -135,16 +143,18 @@ const sideMessage = document.getElementById("sideMessage");
 const loveImage = document.getElementById("loveImage");
 const sadGif = document.getElementById("sadGif");
 
-// YES button - removes question and shows final message
+// YES button - hides buttons and header only
 yesBtn.addEventListener("click", function() {
-    // hide everything except final love message
-    document.getElementById("questionPart").style.display = "none";
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    sadGif.style.display = "none";
+    document.querySelector("#questionPart h2").style.display = "none";
 
-    // show final GIF and message
-    loveImage.style.display = "block";
+    // show final message and LOVE GIF
     finalMessage.innerHTML = "YAAYYY!! 💖🥰";
+    loveImage.style.display = "block";
+    loveImage.style.animation = "none"; // stationary GIF
 
-    // start confetti
     startConfetti();
 });
 
